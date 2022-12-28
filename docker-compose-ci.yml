@@ -23,8 +23,7 @@ services:
     command: >
       sh -c "python3 manage.py runserver 0.0.0.0:8000"
   migrations:
-    build:
-      context: .
+    image: vladislav99/todolist_django:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       postgres_db:
         condition: service_healthy
