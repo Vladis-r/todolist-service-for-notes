@@ -1,0 +1,6 @@
+/.idea
+/venv
+/.pytest_cache
+/__pycache__
+# скрыть после теста
+# .env
