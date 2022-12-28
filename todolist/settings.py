@@ -74,7 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todolist.wsgi.application'
 
-# Database
+# Databased
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
