@@ -8,9 +8,6 @@ services:
       - api
     ports:
       - "80:80"
-#    volumes:
-#      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf
-#      - ./src/static/:/apt/static/
   api:
     image: vladislav99/todolist_django:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
@@ -22,13 +19,6 @@ services:
       - "8000:8000"
     command: >
       sh -c "python3 manage.py runserver 0.0.0.0:8000"
-  migrations:
-    image: vladislav99/todolist_django:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    depends_on:
-      postgres_db:
-        condition: service_healthy
-    command: >
-      sh -c "python3 manage.py migrate"
   postgres_db:
     image: postgres
     environment:
