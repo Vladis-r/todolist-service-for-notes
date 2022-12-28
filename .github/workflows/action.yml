@@ -37,4 +37,4 @@ jobs:
           script: |
             cd todolist_django_ci
             mv docker-compose-server.yaml docker-compose.yaml
-            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
+            docker-compose up -d
