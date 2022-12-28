@@ -27,7 +27,7 @@ jobs:
       - name: clone code
         uses: actions/checkout@v2
       - name: render configs
-        run: cat docker-compose-ci.yml | envsubst > docker-compose-server.yaml
+        run: cat docker-compose-ci.yml | envsubst > docker-compose.yaml
       - name: copys to server
         uses: appleboy/scp-action@master
         with:
@@ -44,5 +44,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd todolist_django_ci
-            mv docker-compose-server.yaml docker-compose.yaml
             docker-compose up -d
