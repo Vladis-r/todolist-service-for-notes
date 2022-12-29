@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 services:
   front:
@@ -13,8 +13,8 @@ services:
     depends_on:
       postgres_db:
         condition: service_healthy
-    ports:
-      - "8000:8000"
+#    ports:
+#      - "8000:8000"
     command: >
       sh -c "python3 manage.py runserver 0.0.0.0:8000"
   postgres_db:
@@ -24,8 +24,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_HOST}
     restart: always
-    ports:
-      - "5432:5432"
+#    ports:
+#      - "5432:5432"
     volumes:
       - ./pg_data:/var/lib/postgresql/data
     healthcheck:
