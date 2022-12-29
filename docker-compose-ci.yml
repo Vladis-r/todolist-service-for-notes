@@ -19,14 +19,14 @@ services:
       sh -c "python3 manage.py runserver 0.0.0.0:8000"
   migrations:
     image: vladislav99/todolist_django:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    environment:
-      DB_ENGINE: ${DB_ENGINE}
-      DB_NAME: ${DB_NAME}
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      SECRET_KEY: ${SECRET_KEY}
-      DEBUG: ${DEBUG}
+#    environment:
+#      DB_ENGINE: ${DB_ENGINE}
+#      DB_NAME: ${DB_NAME}
+#      DB_HOST: ${DB_HOST}
+#      DB_USER: ${DB_USER}
+#      DB_PASSWORD: ${DB_PASSWORD}
+#      SECRET_KEY: ${SECRET_KEY}
+#      DEBUG: ${DEBUG}
     depends_on:
       postgres_db:
         condition: service_healthy
