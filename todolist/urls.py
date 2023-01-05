@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+from todolist.views import AuthVKView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('core/', include("core.urls")),
+    path('oauth/login/vk-oauth2', AuthVKView.as_view(), name="vk-oauth"),
 ]
+# http://localhost/api/oauth/login/vk-oauth2
+# IvxARG9XsX7xtBh8t0Ay
+# 51519338
