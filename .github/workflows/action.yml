@@ -47,4 +47,5 @@ jobs:
           script: |
             cd todolist_django_ci
             mv docker-compose-server.yaml docker-compose.yaml
+            docker-compose down
             docker-compose up -d
