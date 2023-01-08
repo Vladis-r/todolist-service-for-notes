@@ -1,6 +1,8 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework.exceptions import AuthenticationFailed
 
 from core.models import User
 
@@ -37,16 +39,13 @@ class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
 
-    # def create(self, validated_data):
-    #     user = authenticate(
-    #         username=validated_data["username"],
-    #         password=validated_data["password"],
-    #     )
-    #
-    #     if user is not None:
-    #         return user
-    #     else:
-    #         raise AuthenticationFailed
+    def create(self, validated_data: dict) -> User:
+        if not (user := authenticate(
+            username=validated_data['username'],
+            password=validated_data['password'],
+        )):
+            raise AuthenticationFailed
+        return user
 
     class Meta:
         model = User

@@ -21,16 +21,12 @@ class LoginView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        username = request.data['username']
-        password = request.data['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request=request, user=user)
-            headers = self.get_success_headers(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        else:
-            return Response(AuthenticationFailed.default_detail, status=AuthenticationFailed.status_code)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def perform_create(self, serializer):
+        user = serializer.save()
+        login(request=self.request, user=user)
 
 
 class ProfileView(RetrieveUpdateDestroyAPIView):

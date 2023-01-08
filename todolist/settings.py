@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'social_django',
+    'django_filters',
 
     'core',
+    'goals',
 ]
 
 MIDDLEWARE = [
@@ -141,11 +143,6 @@ AUTH_USER_MODEL = "core.User"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
-#     'social_core.backends.vk.VKOAuth2',
-#     'django.contrib.auth.backends.ModelBackend',
-# )
-
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -158,3 +155,7 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET")
 # SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+# }
