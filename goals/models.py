@@ -38,7 +38,7 @@ class Goal(models.Model):
     user = models.ForeignKey("core.User", verbose_name="Автор", on_delete=models.PROTECT)
     priority = models.PositiveSmallIntegerField(verbose_name="Приоритет", choices=Priority.choices,
                                                 default=Priority.medium)
-    status = models.PositiveSmallIntegerField(verbose_name="status", choices=Status.choices, default=Status.to_do)
+    status = models.PositiveSmallIntegerField(verbose_name="Статус", choices=Status.choices, default=Status.to_do)
     category = models.ForeignKey(GoalCategory, verbose_name="Категория", on_delete=models.CASCADE, related_name="goals")
 
     class Meta:
