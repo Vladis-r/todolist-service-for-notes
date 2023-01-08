@@ -105,7 +105,7 @@ class GoalCommentListView(ListAPIView):
     ]
     ordering_fields = ["goal"]
     ordering = ["-created"]
-    search_fields = ["title", "description"]
+    search_fields = ["text", "description"]
 
     def get_queryset(self):
         return GoalComment.objects.filter(user=self.request.user)
