@@ -70,7 +70,7 @@ class GoalListView(ListAPIView):
     search_fields = ["title", "description"]
 
     def get_queryset(self):
-        return GoalCategory.objects.filter(user=self.request.user).exclude(status=Goal.Status.archived)
+        return GoalCategory.objects.filter(user=self.request.user).exclude(status=Goal.status.archived)
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
