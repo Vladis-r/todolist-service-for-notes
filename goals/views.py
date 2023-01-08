@@ -99,6 +99,7 @@ class GoalCommentListView(ListAPIView):
     serializer_class = GoalCommentSerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [
+        DjangoFilterBackend,
         filters.OrderingFilter,
         filters.SearchFilter,
     ]
