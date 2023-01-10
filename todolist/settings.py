@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 # Databased
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-
+# SILENCED_SYSTEM_CHECKS = ['models.E006']
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get("DB_ENGINE"),

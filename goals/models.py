@@ -1,14 +1,15 @@
 from django.db import models
+from django.utils import timezone
 
 from core.models import User
 
 
-class DateModelMixin(models.Model):
+class DateModelMixin:
     created = models.DateTimeField(verbose_name="Дата создания", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="Дата последнего обновления", auto_now=True)
 
 
-class Board(DateModelMixin):
+class Board(DateModelMixin, models.Model):
     class Meta:
         verbose_name = "Доска"
         verbose_name_plural = "Доски"
@@ -17,7 +18,7 @@ class Board(DateModelMixin):
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
 
 
-class BoardParticipant(DateModelMixin):
+class BoardParticipant(DateModelMixin, models.Model):
     class Meta:
         unique_together = ("board", "user")
         verbose_name = "Участник"
@@ -38,14 +39,14 @@ class BoardParticipant(DateModelMixin):
         User,
         verbose_name="Пользователь",
         on_delete=models.PROTECT,
-        related_name="participants",
+        related_name="participants_user",
     )
     role = models.PositiveSmallIntegerField(
         verbose_name="Роль", choices=Role.choices, default=Role.owner
     )
 
 
-class GoalCategory(DateModelMixin):
+class GoalCategory(DateModelMixin, models.Model):
     title = models.CharField(verbose_name="Название", max_length=255)
     user = models.ForeignKey(User, verbose_name="Автор", on_delete=models.PROTECT)
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
@@ -72,7 +73,7 @@ class Priority(models.IntegerChoices):
     critical = 4, "Критический"
 
 
-class Goal(DateModelMixin):
+class Goal(DateModelMixin, models.Model):
     title = models.CharField(verbose_name="Название", max_length=255)
     description = models.TextField(verbose_name="Описание", null=True, blank=True)
     due_date = models.DateTimeField(verbose_name="Срок выполнения")
@@ -87,7 +88,7 @@ class Goal(DateModelMixin):
         verbose_name_plural = "Цели"
 
 
-class GoalComment(DateModelMixin):
+class GoalComment(DateModelMixin, models.Model):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
