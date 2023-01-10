@@ -30,7 +30,7 @@ def create_objects(apps, schema_editor):
                 updated=timezone.now()
             )
 
-            # проставляем всем категориям пользователя его доску
+            # проставляем всем категориям пользователя его доску.
             GoalCategory.objects.filter(user=user).update(board=new_board)
 
 
