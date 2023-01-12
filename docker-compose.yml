@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     restart: always
     depends_on:
       - api
@@ -36,6 +36,19 @@ services:
       - .env
     command: >
       sh -c "python3 manage.py migrate"
+  bot:
+    build:
+      context: .
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      sh -c "python3 manage.py runbot"
   postgres_db:
     image: postgres
     environment:

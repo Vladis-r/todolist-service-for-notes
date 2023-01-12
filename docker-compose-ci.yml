@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     restart: always
     depends_on:
       - api
@@ -20,6 +20,7 @@ services:
       DEBUG: ${DEBUG}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+      TG_TOKEN: ${TG_TOKEN}
     depends_on:
       postgres_db:
         condition: service_healthy
@@ -39,11 +40,33 @@ services:
       DEBUG: ${DEBUG}
       SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
       SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+      TG_TOKEN: ${TG_TOKEN}
     depends_on:
       postgres_db:
         condition: service_healthy
     command: >
       sh -c "python3 manage.py migrate"
+  bot:
+    image: vladislav99/todolist_django:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    environment:
+      DB_ENGINE: ${DB_ENGINE}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      SOCIAL_AUTH_VK_OAUTH2_KEY: ${SOCIAL_AUTH_VK_OAUTH2_KEY}
+      SOCIAL_AUTH_VK_OAUTH2_SECRET: ${SOCIAL_AUTH_VK_OAUTH2_SECRET}
+      TG_TOKEN: ${TG_TOKEN}
+    restart: always
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      sh -c "python3 manage.py runbot"
   postgres_db:
     image: postgres
     environment:

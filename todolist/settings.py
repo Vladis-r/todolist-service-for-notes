@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     'core',
     'goals',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -159,3 +160,5 @@ SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 #     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 # }
+
+TG_TOKEN = os.environ.get("TG_TOKEN")

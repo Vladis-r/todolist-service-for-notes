@@ -5,7 +5,7 @@ from rest_framework import permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
 
 from goals.filters import GoalDateFilter
-from goals.models import GoalCategory, Goal, GoalComment, Board
+from goals.models import GoalCategory, Goal, GoalComment, Board, Status
 from goals.permissions import BoardPermissions, CategoryPermissions, GoalPermissions, CommentPermissions
 from goals.serializers import GoalCreateSerializer, GoalCategorySerializer, GoalCategoryCreateSerializer, \
     GoalSerializer, GoalCommentCreateSerializer, GoalCommentSerializer, BoardCreateSerializer, BoardSerializer, \
@@ -28,8 +28,7 @@ class GoalListView(ListAPIView):
     search_fields = ["title", "description"]
 
     def get_queryset(self):
-        # return Goal.objects.filter(participants__user=self.request.user).exclude(status=4)
-        return Goal.objects.filter(category__board__participants__user=self.request.user).exclude(status=4)
+        return Goal.objects.filter(category__board__participants__user=self.request.user).exclude(status=Status.archived)
 
 
 class GoalCategoryCreateView(CreateAPIView):
@@ -67,7 +66,7 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
         with transaction.atomic():
             instance.is_deleted = True
             instance.save()
-            instance.goals.update(status=4)
+            instance.goals.update(status=Status.archived)
         return instance
 
 
@@ -86,7 +85,7 @@ class GoalView(RetrieveUpdateDestroyAPIView):
         return Goal.objects.filter(category__board__participants__user=self.request.user)
 
     def perform_destroy(self, instance):
-        instance.status = 4
+        instance.status = Status.archived
         instance.save()
         return instance
 
@@ -142,7 +141,7 @@ class BoardView(RetrieveUpdateDestroyAPIView):
             instance.is_deleted = True
             instance.save()
             instance.categories.update(is_deleted=True)
-            Goal.objects.filter(category__board=instance).update(status=4)
+            Goal.objects.filter(category__board=instance).update(status=Status.archived)
         return instance
 
 
