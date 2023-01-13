@@ -180,7 +180,11 @@ class Command(BaseCommand):
         """
         offset: int = 0
         while True:
-            res = self.tg_client.get_updates(offset=offset)
+            try:
+                res = self.tg_client.get_updates(offset=offset)
+                print(res)
+            except Exception:
+                continue
             for item in res.result:
                 offset = item.update_id + 1
                 if hasattr(item, "message"):
