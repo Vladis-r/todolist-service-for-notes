@@ -12,3 +12,5 @@ README.MD
 docker-compose.yml
 docker-compose-ci.yml
 dockerfile
+/.pytest_cache
+/.mypy_cache

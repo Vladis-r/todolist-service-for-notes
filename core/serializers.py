@@ -1,3 +1,5 @@
+import typing
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
@@ -11,7 +13,10 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password_repeat = serializers.CharField(write_only=True)
 
-    def validate(self, attrs):
+    def validate(self, attrs: typing.Any) -> typing.Any:
+        """
+        Забираем данные пароля и повтор_пароля, проходим проверки и возвращаем
+        """
         password = attrs.get("password")
         password_repeat = attrs.pop("password_repeat")
 
@@ -25,7 +30,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return attrs
 
-    def create(self, validated_data):
+    def create(self, validated_data: typing.Any) -> typing.Any:
+        """
+        Валидируем и хешируем пароль, создаём пользователя в бд
+        """
         password = validated_data.get("password")
         validated_data["password"] = make_password(password)
         return super().create(validated_data)
@@ -40,6 +48,9 @@ class LoginSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
 
     def create(self, validated_data: dict) -> User:
+        """
+        Аутентифицируем пользователя
+        """
         if not (user := authenticate(
             username=validated_data['username'],
             password=validated_data['password'],
@@ -63,7 +74,11 @@ class UpdatePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(max_length=128, write_only=True)
     new_password = serializers.CharField(max_length=128, write_only=True)
 
-    def validate(self, attrs):
+    def validate(self, attrs: typing.Any) -> typing.Any:
+        """
+        Обновление пароля пользователя.
+        Проверяем старый пароль, валидируем новый и возвращаем
+        """
         user = attrs["user"]
         if not user.check_password(attrs["old_password"]):
             raise serializers.ValidationError({"old_password": "incorrect password"})
@@ -75,7 +90,11 @@ class UpdatePasswordSerializer(serializers.Serializer):
 
         return attrs
 
-    def update(self, instance, validated_data):
+    def update(self, instance: User, validated_data: typing.Any) -> User:
+        """
+        Хешируем и сохраняем пароль
+        """
         instance.password = make_password(validated_data["new_password"])
         instance.save()
         return instance
+

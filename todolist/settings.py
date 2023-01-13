@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # подключенные библиотеки
     'rest_framework',
     'corsheaders',
     'social_django',
     'django_filters',
 
+    # наши приложения
     'core',
     'goals',
     'bot',
@@ -65,7 +67,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'todolist.urls'
-# APPEND_SLASH = False
 
 TEMPLATES = [
     {
@@ -88,7 +89,7 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 # Databased
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# SILENCED_SYSTEM_CHECKS = ['models.E006']
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get("DB_ENGINE"),
@@ -144,6 +145,7 @@ AUTH_USER_MODEL = "core.User"
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+# Аутентификация с помощью Vkontakte
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -156,9 +158,5 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET")
 # SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-# }
-
+# Телеграм токен
 TG_TOKEN = os.environ.get("TG_TOKEN")

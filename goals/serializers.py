@@ -1,3 +1,5 @@
+import typing
+
 from django.db import transaction
 from rest_framework import serializers
 
@@ -14,7 +16,10 @@ class BoardCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "created", "updated")
         fields = "__all__"
 
-    def create(self, validated_data):
+    def create(self, validated_data: typing.Any) -> Board:
+        """
+        Создаём доску
+        """
         user = validated_data.pop("user")
         board = Board.objects.create(**validated_data)
         BoardParticipant.objects.create(
@@ -46,7 +51,10 @@ class BoardSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ("id", "created", "updated")
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Board, validated_data: typing.Any) -> Board:
+        """
+        Обновляем участников и сохраняем в бд
+        """
         owner = validated_data.pop("user")
         new_participants = validated_data.pop("participants")
         new_by_id = {part["user"].id: part for part in new_participants}
@@ -104,7 +112,10 @@ class GoalCategorySerializer(serializers.ModelSerializer):
 class GoalCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
-    def validate_category(self, value):
+    def validate_category(self, value: GoalCategory) -> GoalCategory:
+        """
+        Проверки валидации
+        """
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
 

@@ -1,0 +1,14 @@
+{
+  "id": 2,
+  "last_login": null,
+  "is_superuser": false,
+  "username": "vlad",
+  "first_name": "",
+  "last_name": "",
+  "email": "",
+  "is_staff": false,
+  "is_active": true,
+  "date_joined": "2023-01-12T19:44:02.817085Z",
+  "groups": [],
+  "user_permissions": []
+}
