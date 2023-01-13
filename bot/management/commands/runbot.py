@@ -176,11 +176,12 @@ class Command(BaseCommand):
     def handle(self, *args: typing.Any, **options: typing.Any) -> None:
         """
         Запускаем бота.
-        Получаем обновления с Телеграма и передаём в BotRunner
+        Получаем обновления с Телеграма и передаём в BotRunner.
         """
         offset: int = 0
         while True:
-            res = self.tg_client.get_updates(offset=offset)
+            try:
+                res = self.tg_client.get_updates(offset=offset)
             for item in res.result:
                 offset = item.update_id + 1
                 if hasattr(item, "message"):

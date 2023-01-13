@@ -11,7 +11,3 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 # Копируем код, кроме .dockerignore
 COPY . .
-# прокидываем порт (в docker-compose.yml)
-# EXPOSE 8000
-# Запускаем приложение (в docker-compose.yml)
-# CMD python manage.py runserver
