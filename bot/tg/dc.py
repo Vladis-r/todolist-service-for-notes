@@ -66,7 +66,7 @@ class Update:
 @dataclass
 class GetUpdatesResponse:
     ok: bool
-    result: List[Update]
+    result: Optional[List[Update]]
 
     class Meta:
         unknown = marshmallow.EXCLUDE
